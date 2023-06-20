@@ -1,0 +1,7 @@
+PythonTurtle
+requests
+pandas
+pyarrow
+python-dotenv
+pathlib
+pyarrow == 12.0.1
