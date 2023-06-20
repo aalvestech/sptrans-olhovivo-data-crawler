@@ -7,9 +7,11 @@ import pandas as pd
 class S3FileManager:
 
     def __init__(self, s3_client: S3Client):
+
         self.s3_client = s3_client
 
     def list_objects(self, bucket_name: str, folder_path: str) -> list:
+
         """
         List all objects in a folder in an S3 bucket.
 
@@ -22,16 +24,24 @@ class S3FileManager:
         :return: A list of object keys in the specified folder.
         :rtype: list
         """
+
         try:
+
             response = self.s3_client.s3.list_objects_v2(Bucket=bucket_name, Prefix=folder_path)
             objects = [obj['Key'] for obj in response.get('Contents', [])]
+
             return objects
+        
         except ClientError as e:
+
             logging.error(e)
+
         except ValueError as e:
+
             raise e
 
     def read_csv(self, bucket_name: str, object_key: str) -> bytes:
+
         """
         Read an object from an S3 bucket.
 
@@ -45,10 +55,16 @@ class S3FileManager:
         :rtype: bytes
         """
         try:
+
             response = self.s3_client.s3.get_object(Bucket=bucket_name, Key=object_key)
             data = response['Body'].read()
+
             return data
+        
         except ClientError as e:
+
             logging.error(e)
+
         except ValueError as e:
+            
             raise e

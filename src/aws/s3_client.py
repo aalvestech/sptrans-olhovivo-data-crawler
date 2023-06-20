@@ -10,13 +10,15 @@ import pyarrow as pa
 class S3Client:
 
     def __init__(self):
+
         self.s3 = boto3.client(
             's3',
             aws_access_key_id=os.getenv('AWS_ACCESS_KEY_ID'),
             aws_secret_access_key=os.getenv('AWS_SECRET_ACCESS_KEY'),
         )
 
-    def write_json(self, bucket_name: str, file_path: str, data: bytes) -> bool:
+    def write_json(self, bucket_name: str, folder_path: str, file_name: str, data: bytes) -> bool:
+
         """
         Write a json file to an S3 bucket.
 
@@ -32,17 +34,25 @@ class S3Client:
         :return: True if the file was uploaded successfully, else False.
         :rtype: bool
         """
+
         try:
+
+            date = datetime.now().strftime("%Y%m%d_%H%M%S")
+            file_name = file_name + '_' + date + '.parquet'
+            file_path = folder_path + file_name
 
             self.s3.put_object(Bucket=bucket_name, Key=file_path, Body=data)
             print(f"Data was written to S3://{bucket_name}/{file_path}")
             
         except Exception as e:
+
             print(f"Error: {e}")
+
             return False
+        
         return True
     
-    def write_parquet(self, bucket_name: str, file_path: str, df: pd.DataFrame, partition_cols: list = None) -> bool:
+    def write_parquet(self, bucket_name: str, folder_path: str, file_name: str, df: pd.DataFrame, partition_cols: list = None) -> bool:
         """
         Write a DataFrame to an S3 bucket in Parquet format.
 
@@ -63,6 +73,10 @@ class S3Client:
         """
         try:
 
+            date = datetime.now().strftime("%Y%m%d_%H%M%S")
+            file_name = file_name + '_' + date + '.parquet'
+            file_path = folder_path + file_name
+
             if partition_cols:
 
                 table = pa.Table.from_pandas(df, preserve_index=False)
@@ -80,5 +94,5 @@ class S3Client:
         except Exception as e:
 
             print(f"Error: {e}")
-            
+
             return False

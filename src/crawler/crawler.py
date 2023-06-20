@@ -31,25 +31,10 @@ class Crawler():
         return self.sptc.auth()
     
 
-    # def get_all_bus_positions(self, folder_path):
-
-    #     date = datetime.now().strftime("%Y%m%d_%H%M%S")
-    #     file_name = 'all_bus_postions' + '_' + date + '.json'
-    #     file_path = folder_path + file_name
-
-
-    #     bus_position_json = self.sptc.bus_position()
-    #     bus_position_bytes = json.dumps(bus_position_json).encode('utf-8')  # Serializar o dicionário em formato JSON e converter para bytes
-
-    #     self.aws.write_parquet(self.BUCKET_NAME, file_path, bus_position_bytes)
-
     def get_all_bus_positions(self, folder_path):
-
-        date = datetime.now().strftime("%Y%m%d_%H%M%S")
-        file_name = 'all_bus_positions' + '_' + date + '.parquet'
-        file_path = folder_path + file_name
-
+        
         bus_position_json = self.sptc.bus_position()
-        df = pd.DataFrame(bus_position_json)
+        df_bus_position = pd.DataFrame(bus_position_json)
+        file_name = 'all_bus_positions'
 
-        self.aws.write_parquet(self.BUCKET_NAME, file_path, df)
+        self.aws.write_parquet(self.BUCKET_NAME, folder_path, file_name, df_bus_position)

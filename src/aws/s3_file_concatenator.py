@@ -4,7 +4,9 @@ import pandas as pd
 
 
 class S3FileConcatenator:
+    
     def __init__(self, s3_file_manager: S3FileManager):
+
         self.s3_file_manager = s3_file_manager
 
     def concatenate_files(self, bucket_name: str, folder_path: str, file_format: str) -> pd.DataFrame:
