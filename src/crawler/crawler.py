@@ -34,7 +34,6 @@ class Crawler():
     def get_all_bus_positions(self, folder_path):
         
         bus_position_json = self.sptc.bus_position()
-        df_bus_position = pd.DataFrame(bus_position_json)
         file_name = 'all_bus_positions'
 
-        self.aws.write_json(self.BUCKET_NAME, folder_path, file_name, df_bus_position)
+        self.aws.write_json(self.BUCKET_NAME, folder_path, file_name, bus_position_json)

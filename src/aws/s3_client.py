@@ -1,6 +1,7 @@
 import os
 import io
 from datetime import datetime
+import json
 import boto3
 import pandas as pd
 import pyarrow.parquet as pq
@@ -41,7 +42,10 @@ class S3Client:
             file_name = file_name + '_' + date + '.parquet'
             file_path = folder_path + file_name
 
-            self.s3.put_object(Bucket=bucket_name, Key=file_path, Body=data)
+            json_data = json.dumps(data)  # Converter para string JSON
+            data_bytes = json_data.encode('utf-8')  # Codificar em bytes
+
+            self.s3.put_object(Bucket=bucket_name, Key=file_path, Body=data_bytes)
             print(f"Data was written to S3://{bucket_name}/{file_path}")
             
         except Exception as e:
@@ -73,7 +77,7 @@ class S3Client:
         :return: True if the file was uploaded successfully, else False.
         :rtype: bool
         """
-        
+
         try:
 
             date = datetime.now().strftime("%Y%m%d_%H%M%S")
