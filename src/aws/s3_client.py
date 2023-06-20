@@ -39,7 +39,7 @@ class S3Client:
         try:
 
             date = datetime.now().strftime("%Y%m%d_%H%M%S")
-            file_name = file_name + '_' + date + '.parquet'
+            file_name = file_name + '_' + date + '.json'
             file_path = folder_path + file_name
 
             json_data = json.dumps(data)  # Converter para string JSON
