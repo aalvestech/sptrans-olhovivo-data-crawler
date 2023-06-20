@@ -52,7 +52,9 @@ class S3Client:
         
         return True
     
+
     def write_parquet(self, bucket_name: str, folder_path: str, file_name: str, df: pd.DataFrame, partition_cols: list = None) -> bool:
+
         """
         Write a DataFrame to an S3 bucket in Parquet format.
 
@@ -71,6 +73,7 @@ class S3Client:
         :return: True if the file was uploaded successfully, else False.
         :rtype: bool
         """
+        
         try:
 
             date = datetime.now().strftime("%Y%m%d_%H%M%S")
