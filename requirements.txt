@@ -1,7 +1,9 @@
-PythonTurtle
-requests
-pandas
-pyarrow
-python-dotenv
-pathlib
+#Data Processing
+pandas == 2.0.2
 pyarrow == 12.0.1
+
+#Env
+python-dotenv == 1.0.0
+
+#AWS
+boto3 == 1.26.156
